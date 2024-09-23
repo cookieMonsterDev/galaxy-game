@@ -1,6 +1,6 @@
 #:kivy 1.11.1
 
-<TicTacToeGame>:
+<TicTacTToeGame>:
   BoxLayout:
     padding: 20
     orientation: "vertical"
@@ -87,55 +87,55 @@
           size: self.width - 4, self.height - 4 
 
       Button:
-        text: "1"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "2"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "3"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "4"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "5"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "6"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "7"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "8"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
 
       Button:
-        text: "9"
+        text: ""
         font_size: 32
         background_normal: ""
         background_color: 10/255, 10/255, 35/255, 1
@@ -163,6 +163,7 @@
         text: "Reset Round"
         font_size: 20
         background_normal: ""
+        on_press: root.on_move_click()
         background_color: 10/255, 10/255, 35/255, 1
 
         canvas.before:
