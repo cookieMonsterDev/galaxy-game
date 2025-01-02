@@ -1,6 +1,6 @@
 from enum import Enum
 
-DEFAULT_GRID = [0] * 9
+DEFAULT_BOARD = [0] * 9
 WINNING_COMBINATIONS = (
   (0, 1, 2),
   (3, 4, 5),
@@ -17,9 +17,9 @@ class Players(Enum):
   PLAYER_O = 2
 
 class Game:
-  def __init__(self, grid = DEFAULT_GRID.copy(), turn = Players.PLAYER_X, score_x = 0, score_o = 0, player_won = None, move_count = 0):
-    self.grid = grid
+  def __init__(self, board = DEFAULT_BOARD.copy(), turn = Players.PLAYER_X.value, score_x = 0, score_o = 0, player_won = None, move_count = 0):
     self.turn = turn
+    self.board = board
     self.is_full = False
     self.score_x = score_x
     self.score_o = score_o
@@ -28,39 +28,52 @@ class Game:
 
   def __check_win(self):
     for item in WINNING_COMBINATIONS:
-      grid_item_1 = self.grid[item[0]]
-      grid_item_2 = self.grid[item[1]]
-      grid_item_3 = self.grid[item[2]]
-      if grid_item_1 == grid_item_2 == grid_item_3 and grid_item_1 != 0:
-        return (True, grid_item_1)
+      board_item_1 = self.board[item[0]]
+      board_item_2 = self.board[item[1]]
+      board_item_3 = self.board[item[2]]
+
+      if board_item_1 == board_item_2 == board_item_3 and board_item_1 != 0:
+        return (True, board_item_1)
+      
     return (False, 0)
 
   def move(self, index):
-    if self.grid[index] != 0:
+    if self.board[index] != 0:
       return
-    self.grid[index] = self.turn
+    
+    self.board[index] = self.turn
     self.move_count += 1
+
+    self.turn = Players.PLAYER_X.value if self.turn == Players.PLAYER_O.value else Players.PLAYER_O.value
+
     if self.move_count < 5:
       return
-    self.is_full = 0 not in self.grid
+    
+    self.is_full = 0 not in self.board
     if self.is_full:
       return
+    
     (isWin, player) = self.__check_win()
+
     if isWin:
-      if player == Players.PLAYER_X:
+      if player == Players.PLAYER_X.value:
         self.score_x += 1
-        self.player_won = Players.PLAYER_X
-      if player == Players.PLAYER_O:
+        self.player_won = Players.PLAYER_X.value
+
+      if player == Players.PLAYER_O.value:
         self.score_o += 1
-        self.player_won = Players.PLAYER_O
+        self.player_won = Players.PLAYER_O.value
     
   def new_round(self):
     self.move_count = 0
-    self.grid = DEFAULT_GRID.copy()
-    if self.player_won == Players.PLAYER_X:
-      self.turn = Players.PLAYER_O
-    if self.player_won == Players.PLAYER_O:
-      self.turn = Players.PLAYER_X
+    self.board = DEFAULT_BOARD.copy()
+
+    if self.player_won == Players.PLAYER_X.value:
+      self.turn = Players.PLAYER_O.value
+
+    if self.player_won == Players.PLAYER_O.value:
+      self.turn = Players.PLAYER_X.value
+      
     self.player_won = None
 
   def rest_game(self):
@@ -68,4 +81,4 @@ class Game:
     self.score_o = 0
     self.move_count = 0
     self.player_won = None
-    self.grid = DEFAULT_GRID.copy()
+    self.board = DEFAULT_BOARD.copy()
