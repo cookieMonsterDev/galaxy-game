@@ -1,42 +1,51 @@
-from pygame import Rect, draw, mouse
+from enum import Enum
+from pygame import Rect, draw
+from .config import PALE_GOLDENROD_COLOR, CHESTNUT_BROWN_COLOR
+
+class ButtonState(Enum):
+  EMPTY = 0
+  CROSS = 1
+  CIRCLE = 2
 
 class BoardButton:
-  def __init__(self, left, top, width=50, height=50):
+  def __init__(self, state=ButtonState.EMPTY, left=0, top=0, width=80, height=80, backgroundColor=PALE_GOLDENROD_COLOR, textColor=CHESTNUT_BROWN_COLOR):
+    self.state = state
+    self.__clicked = False
+    self.textColor = textColor
+    self.backgroundColor = backgroundColor
     self.__rect = Rect(left, top, width, height)
-    self.__color = (0, 0, 0)
-    self.__state = None
-    self.__clicked = False 
-
-  def draw(self, screen):
-    draw.rect(screen, self.__color, self.__rect)
-    if self.__state == 0:
-      self.__draw_circle(screen)
-    if self.__state == 1:
-      self.__draw_cross(screen)
 
   def __draw_circle(self, screen):
     center = self.__rect.center
-    radius = self.__rect.width // 3
-    draw.circle(screen, (255, 0, 0), center, radius, width=3)
+    radius = self.__rect.width // 2.5
+    draw.circle(screen, self.textColor, center, radius, width=6)
 
   def __draw_cross(self, screen):
     padding = 10
     x1, y1 = self.__rect.topleft
     x2, y2 = self.__rect.bottomright
-    draw.line(screen, (0, 0, 255), (x1 + padding, y1 + padding), (x2 - padding, y2 - padding), width=3)
-    draw.line(screen,(0, 0, 255), (x2 - padding, y1 + padding), (x1 + padding, y2 - padding), width=3)
+    draw.line(screen, self.textColor, (x1 + padding, y1 + padding), (x2 - padding, y2 - padding), width=8)
+    draw.line(screen, self.textColor, (x2 - padding, y1 + padding), (x1 + padding, y2 - padding), width=8)
 
-  def set_state(self, new_state):
-    self.__state = new_state
+  def __is_clicked(self, mouse_pos, mouse_pressed):
+    return self.__rect.collidepoint(mouse_pos) and mouse_pressed[0]
 
-  def __is_clicked(self):
-    return self.__rect.collidepoint(mouse.get_pos()) and mouse.get_pressed()[0]
+  def set_state(self, new_state: ButtonState):
+    self.state = new_state
 
-  def on_click(self, callback):
-    if self.__is_clicked():
+  def draw(self, screen):
+    draw.rect(screen, self.backgroundColor, self.__rect)
+    if self.state == ButtonState.CIRCLE:
+      self.__draw_circle(screen)
+    elif self.state == ButtonState.CROSS:
+      self.__draw_cross(screen)
+
+  def on_click(self, mouse_pos, mouse_pressed, callback):
+    if self.__is_clicked(mouse_pos, mouse_pressed):
       if not self.__clicked:
         callback(self)
       self.__clicked = True
     else:
       self.__clicked = False
+
  
