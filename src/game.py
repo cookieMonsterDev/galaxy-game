@@ -1,11 +1,12 @@
 from enum import Enum
 from config import WINNING_COMBINATIONS
 
-DEFAULT_BOARD = [0] * 9
+DEFAULT_BOARD = [None] * 9
+
 
 class Players(Enum):
-    PLAYER_X = 1
-    PLAYER_O = 2
+    PLAYER_X = "X"
+    PLAYER_O = "O"
 
 
 class Game:
@@ -32,13 +33,16 @@ class Game:
             board_item_2 = self.board[item[1]]
             board_item_3 = self.board[item[2]]
 
-            if board_item_1 == board_item_2 == board_item_3 and board_item_1 != 0:
+            if board_item_1 == board_item_2 == board_item_3 and board_item_1 != None:
                 return (True, board_item_1)
 
-        return (False, 0)
+        return (False, None)
 
     def move(self, index):
-        if self.board[index] != 0:
+        if self.player_won:
+            return
+
+        if self.board[index] != None:
             return
 
         self.board[index] = self.turn
@@ -53,10 +57,8 @@ class Game:
         if self.move_count < 5:
             return
 
-        self.is_full = 0 not in self.board
-        if self.is_full:
-            return
-
+        self.is_full = None not in self.board
+ 
         (isWin, player) = self.__check_win()
 
         if isWin:

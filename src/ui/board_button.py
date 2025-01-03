@@ -1,16 +1,16 @@
 from enum import Enum
 from pygame import draw
 from .button import Button
-from config import CHESTNUT_BROWN_COLOR
+from config import COLDEN_OCHRE_COLOR
 
 class BoardButtonState(Enum):
-    EMPTY = 0
-    CROSS = 1
-    CIRCLE = 2
+    EMPTY = None
+    CROSS = "X"
+    CIRCLE = "O"
 
 class BoardButton(Button):
     def __init__(
-        self, state=BoardButtonState.EMPTY, textColor=CHESTNUT_BROWN_COLOR, **kwargs
+        self, state=BoardButtonState.EMPTY, textColor=COLDEN_OCHRE_COLOR, **kwargs
     ):
         super().__init__(**kwargs)
         self.state = state

@@ -15,7 +15,7 @@ class KeypadButton(Button):
         self.text = text
         self.textColor = textColor
         self.borderColor = borderColor
-        self.font = font.Font(None, 32)
+        self.font = font.Font(None, 30)
 
     def __draw_text(self, screen):
         text_surface = self.font.render(self.text, True, self.textColor)

@@ -32,16 +32,27 @@ def create_keypad_button_callback(fn):
     return callback
 
 
-def create_board_buttons():
+def create_scorebar_params():
+    return {
+        "turn": game.turn,
+        "is_full": game.is_full,
+        "score_x": game.score_x,
+        "score_o": game.score_o,
+        "move_count": game.move_count,
+        "player_won": game.player_won,
+    }
+
+
+def create_board_params():
     buttons = []
     for index, state in enumerate(game.board):
         callback = create_board_button_callback(index)
         button = BoardButton(state=state, callback=callback)
         buttons.append(button)
-    return buttons
+    return {"items": buttons}
 
 
-def create_keypad_buttons():
+def create_keypad_params():
     left_text = "Reset Game"
     left_callback = create_keypad_button_callback(game.rest_game)
     right_text = "New Round" if game.player_won else "Reset Round"
@@ -59,9 +70,9 @@ def update():
     global board
     global keypad
     global scorebar
-    scorebar = Scorebar(top=padding, left=padding)
-    board = Board(top=(2 * padding) + 100, left=padding, items=create_board_buttons())
-    keypad = Keypad(top=(4 * padding) + 412, left=padding, **create_keypad_buttons())
+    scorebar = Scorebar(top=padding, left=padding, **create_scorebar_params())
+    board = Board(top=(2 * padding) + 100, left=padding, **create_board_params())
+    keypad = Keypad(top=(4 * padding) + 412, left=padding, **create_keypad_params())
 
 
 update()
