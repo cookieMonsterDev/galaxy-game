@@ -49,7 +49,7 @@ def create_board_params():
         callback = create_board_button_callback(index)
         button = BoardButton(state=state, callback=callback)
         buttons.append(button)
-    return {"items": buttons}
+    return {"items": buttons, "win_line": game.win_line}
 
 
 def create_keypad_params():

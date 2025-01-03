@@ -9,7 +9,7 @@ class Keypad:
         top=0,
         width=312,
         height=60,
-        backgroundColor=PALE_GOLDENROD_COLOR,
+        background_color=PALE_GOLDENROD_COLOR,
         left_text="left_button",
         left_callback=None,
         right_text="right_button",
@@ -19,11 +19,11 @@ class Keypad:
         self.right_text = right_text
         self.left_callback = left_callback
         self.right_callback = right_callback
-        self.backgroundColor = backgroundColor
+        self.background_color = background_color
         self.rect = Rect(left, top, width, height)
 
     def draw(self, screen):
-        draw.rect(screen, self.backgroundColor, self.rect)
+        draw.rect(screen, self.background_color, self.rect)
 
         width = 151
         height = 60

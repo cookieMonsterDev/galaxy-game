@@ -7,18 +7,18 @@ class KeypadButton(Button):
     def __init__(
         self,
         text="button",
-        textColor=CHESTNUT_BROWN_COLOR,
-        borderColor=CHESTNUT_BROWN_COLOR,
+        text_color=CHESTNUT_BROWN_COLOR,
+        border_color=CHESTNUT_BROWN_COLOR,
         **kwargs
     ):
         super().__init__(**kwargs)
         self.text = text
-        self.textColor = textColor
-        self.borderColor = borderColor
+        self.text_color = text_color
+        self.border_color = border_color
         self.font = font.Font(None, 30)
 
     def __draw_text(self, screen):
-        text_surface = self.font.render(self.text, True, self.textColor)
+        text_surface = self.font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -26,5 +26,5 @@ class KeypadButton(Button):
         self.rect.top = top or self.top
         self.rect.left = left or self.left
         super().draw(screen)
-        draw.rect(screen, self.borderColor, self.rect, 4)
+        draw.rect(screen, self.border_color, self.rect, 4)
         self.__draw_text(screen)

@@ -1,6 +1,7 @@
 from pygame import Rect, draw, mouse
 from config import PALE_GOLDENROD_COLOR
 
+
 class Button:
     def __init__(
         self,
@@ -9,13 +10,13 @@ class Button:
         width=100,
         height=100,
         callback=None,
-        backgroundColor=PALE_GOLDENROD_COLOR,
+        background_color=PALE_GOLDENROD_COLOR,
     ):
         self.top = top
         self.left = left
         self.clicked = False
         self.callback = callback
-        self.backgroundColor = backgroundColor
+        self.background_color = background_color
         self.rect = Rect(left, top, width, height)
 
     def __handle_click(self):
@@ -34,4 +35,4 @@ class Button:
 
     def draw(self, screen):
         self.__handle_click()
-        draw.rect(screen, self.backgroundColor, self.rect)
+        draw.rect(screen, self.background_color, self.rect)

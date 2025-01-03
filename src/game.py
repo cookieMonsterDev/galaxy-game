@@ -18,22 +18,26 @@ class Game:
         score_o=0,
         player_won=None,
         move_count=0,
+        win_line=None,
     ):
+
         self.turn = turn
         self.board = board
         self.is_full = False
         self.score_x = score_x
         self.score_o = score_o
+        self.win_line = win_line
         self.move_count = move_count
         self.player_won = player_won
 
     def __check_win(self):
-        for item in WINNING_COMBINATIONS:
+        for index, item in enumerate(WINNING_COMBINATIONS):
             board_item_1 = self.board[item[0]]
             board_item_2 = self.board[item[1]]
             board_item_3 = self.board[item[2]]
 
             if board_item_1 == board_item_2 == board_item_3 and board_item_1 != None:
+                self.win_line = index
                 return (True, board_item_1)
 
         return (False, None)
@@ -58,7 +62,7 @@ class Game:
             return
 
         self.is_full = None not in self.board
- 
+
         (isWin, player) = self.__check_win()
 
         if isWin:
@@ -80,11 +84,13 @@ class Game:
         if self.player_won == Players.PLAYER_O.value:
             self.turn = Players.PLAYER_X.value
 
+        self.win_line = None
         self.player_won = None
 
     def rest_game(self):
         self.score_x = 0
         self.score_o = 0
         self.move_count = 0
+        self.win_line = None
         self.player_won = None
         self.board = DEFAULT_BOARD.copy()

@@ -37,7 +37,9 @@ class Scorebar:
         label_font = font.Font(None, 24)
         value_font = font.Font(None, 30)
         label_surface = label_font.render("Score-X:", True, self.textPrimaryColor)
-        value_surface = value_font.render(f"{self.score_x}", True, self.textSecondaryColor)
+        value_surface = value_font.render(
+            f"{self.score_x}", True, self.textSecondaryColor
+        )
 
         label_left = self.rect.left + 10
         label_top = self.rect.top + 10
@@ -51,7 +53,9 @@ class Scorebar:
         label_font = font.Font(None, 24)
         value_font = font.Font(None, 30)
         label_surface = label_font.render("Score-O:", True, self.textPrimaryColor)
-        value_surface = value_font.render(f"{self.score_o}", True, self.textSecondaryColor)
+        value_surface = value_font.render(
+            f"{self.score_o}", True, self.textSecondaryColor
+        )
 
         value_left = self.rect.right - 10 - value_surface.get_width()
         label_left = value_left - label_surface.get_width() - 5
@@ -64,7 +68,7 @@ class Scorebar:
     def __draw_message(self, screen):
         text_container = Rect(self.rect.left, self.rect.top + 30, self.rect.width, 70)
         text_font = font.Font(None, 30)
-        line_spacing = -2 
+        line_spacing = -2
         text = ""
 
         if self.turn:
@@ -77,11 +81,11 @@ class Scorebar:
             text = "It seems tie"
 
         if self.move_count == 0:
-            second = (
-                Players.PLAYER_O.value
-                if self.turn == Players.PLAYER_X
-                else Players.PLAYER_X.value
-            )
+            second= None
+            if self.turn == Players.PLAYER_X.value:
+                second = Players.PLAYER_O.value
+            if self.turn == Players.PLAYER_O.value:
+                second = Players.PLAYER_X.value
             text = f"Player {self.turn} starts first, followed by Player {second}"
 
         lines = []
@@ -91,10 +95,9 @@ class Scorebar:
         while remaining_text:
             i = 1
 
-            while (
-                text_font.size(remaining_text[:i])[0] < text_container.width
-                and i < len(remaining_text)
-            ):
+            while text_font.size(remaining_text[:i])[
+                0
+            ] < text_container.width and i < len(remaining_text):
                 i += 1
 
             if i < len(remaining_text):
@@ -109,7 +112,9 @@ class Scorebar:
 
         for line in lines:
             line_surface = text_font.render(line, True, self.textPrimaryColor)
-            line_rect = line_surface.get_rect(center=(text_container.centerx, y + font_height // 2))
+            line_rect = line_surface.get_rect(
+                center=(text_container.centerx, y + font_height // 2)
+            )
             screen.blit(line_surface, line_rect.topleft)
             y += font_height + line_spacing
 
